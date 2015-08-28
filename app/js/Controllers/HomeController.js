@@ -4,6 +4,8 @@
 
 movieViewer.controller("HomeController",
     function HomeController ($scope, MovieService, $location, $timeout) {
+        var promise;
+
         var sendMoviesToUser = function () {
             MovieService.getMovies($scope.keyword).then(loadMoviesToScope);
         },
@@ -13,7 +15,8 @@ movieViewer.controller("HomeController",
         };
 
         $scope.search = function () {
-            $timeout(sendMoviesToUser, 1000);
+            $timeout.cancel(promise);
+            promise = $timeout(sendMoviesToUser, 500);
         };
 
         $scope.go = function(path) {
